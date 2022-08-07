@@ -58,7 +58,8 @@ class Command(BaseCommand):
                     for row in reader:
                         dt = self.getDate(row)
                         merchant = row[4]
-                        amount = row[1]
+                        # Banking amounts need to be inverted to match credit spending
+                        amount = (-1 * row[1])
                         # Wells Fargo does not categorize transactions
                         Transaction.objects.get_or_create(
                             date=dt,
