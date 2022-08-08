@@ -19,31 +19,45 @@ def chart(request):
     if end: 
         displayed_transactions = displayed_transactions.filter(date__lte=end)
 
-    total_expenditure = px.line(
+    # Spending Over Time #
+    line_graph = px.line(
         x=[t.date for t in displayed_transactions],
         y=[t.amount for t in displayed_transactions],
-        title='Total Expenditure',
         labels={'x': 'Date', 'y': 'Amount'}
     )
+    line_graph = line_graph.to_html()
 
-    total_expenditure.update_layout(title={
-        'font_size': 22,
-        'xanchor': 'center',
-        'x': 0.5
-    })
+    # Cumulative Spending #
+    cumulative = px.ecdf(
+        x=[t.date for t in displayed_transactions],
+        y=[t.amount for t in displayed_transactions],
+    )
+    cumulative = cumulative.to_html()
 
-    total_expenditure = total_expenditure.to_html()
-
-
+    # Pie graph 1 #
+    pie_graph_category = px.pie(
+        values=[t.amount for t in displayed_transactions],
+        names=[t.category for t in displayed_transactions],
+    )
+    pie_graph_category = pie_graph_category.to_html()
+    
+    # Pie graph 2 #
+    pie_graph_banks = px.pie(
+        values=[t.amount for t in displayed_transactions],
+        names=[t.issuer for t in displayed_transactions],
+    )
+    pie_graph_banks = pie_graph_banks.to_html()
 
     # List of all transactions
-
     all_transactions = Transaction.objects.all()
 
     # Render HTML page #
-
     context = {
-        'total_expenditure': total_expenditure, 'form': DateForm(),
+        'form': DateForm(),
+        'line_graph': line_graph,
+        'cumulative': cumulative,
+        'pie_graph_category': pie_graph_category,
+        'pie_graph_banks': pie_graph_banks,
         'all_transactions': all_transactions,
     }
 

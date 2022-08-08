@@ -7,7 +7,18 @@
   <button>Submit</button>
 </form>
 
-{{ total_expenditure|safe }}
+<h3>Spending Over Time</h3>
+{{ line_graph|safe }}
+
+<h3>Cumulative Spending</h3>
+{{ cumulative|safe }}
+
+<h3>Expenditure by Category</h3>
+{{ pie_graph_category|safe }}
+
+<h3>Expenditure by Financial Institution</h3>
+{{ pie_graph_banks|safe }}
+
 
 <hr>
 <h3>All Transactions</h3>
