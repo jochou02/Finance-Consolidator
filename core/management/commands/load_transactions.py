@@ -64,7 +64,8 @@ class Command(BaseCommand):
                         Transaction.objects.get_or_create(
                             date=dt,
                             merchant=merchant,
-                            amount=amount
+                            amount=amount,
+                            issuer='Wells Fargo'
                         )
  
                 elif 'Amex' in filename:
@@ -77,7 +78,8 @@ class Command(BaseCommand):
                             date=dt,
                             merchant=merchant,
                             amount=amount,
-                            category=category
+                            category=category,
+                            issuer='Amex'
                         )
                         
                 elif 'Discover' in filename:
@@ -89,7 +91,8 @@ class Command(BaseCommand):
                             date=dt,
                             merchant=merchant,
                             amount=amount,
-                            category=category
+                            category=category,
+                            issuer='Discover'
                         )
                         
     
