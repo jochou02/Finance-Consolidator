@@ -29,7 +29,7 @@
         <td>{{transaction.amount}}</td>
         <td>{{transaction.category}}</td>
         <td>{{transaction.issuer}}</td>
-        <td><a class="btn btn-outline-primary" href="">Update</a></td>
+        <td><a class="btn btn-outline-primary" href="{% url 'update_transaction' transaction.id%}">Update</a></td>
       </tr>
     {% endfor %}
   </tbody>

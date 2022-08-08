@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 import plotly.express as px
 from .forms import *
@@ -48,3 +48,17 @@ def chart(request):
     }
 
     return render(request, 'core/chart.html', context)
+
+
+def updateTransaction(request, pk):
+    transaction = Transaction.objects.get(id=pk)
+    form = TransactionForm(instance=transaction)
+
+    if request.method == 'POST': 
+        form = TransactionForm(request.POST, instance=transaction)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    context = {'form': form}
+    return render(request, 'core/transaction_form.html', context)
